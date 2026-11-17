@@ -1,0 +1,1008 @@
+/**
+ * ============================================================================
+ * DESIGN SYSTEM (V2 - PORTAL EDUCASE) — SEDUC / SEED SERGIPE
+ * Baseado no padrão cromático oficial: https://seduc.se.gov.br/
+ * ============================================================================
+ * Arquitetura Visual desta versão (Turma 2):
+ * - Navegação Superior Horizontal (Top Command-Center + Ribbon Sub-Header)
+ * - Hero Banner em Gradiente Institucional Azul/Esmeralda com KPIs integrados
+ * - Layout Card-First (Bento Grid, Kanban de Deliberação e Chips Interativos)
+ * - Paleta SEDUC-SE:
+ *   • Azul Primário: #164194 | Azul Gov: #01448A | Azul Escuro: #1B3D74
+ *   • Verde Esmeralda Sergipe: #2AC034 | Amarelo Ouro Sergipe: #FFB900
+ * ============================================================================
+ */
+
+:root {
+  /* Paleta Oficial SEDUC Sergipe */
+  --seduc-blue-darkest: #0a1e3f;
+  --seduc-blue-dark: #1b3d74;
+  --seduc-blue-gov: #01448a;
+  --seduc-blue-primary: #164194;
+  --seduc-blue-bright: #2667ff;
+  --seduc-blue-light: #e8f0fe;
+  --seduc-blue-soft: #f2f6ff;
+
+  --seduc-gold: #ffb900;
+  --seduc-gold-dark: #9e6c00;
+  --seduc-gold-light: #fff9db;
+
+  --seduc-green: #2ac034;
+  --seduc-green-dark: #137a1b;
+  --seduc-green-light: #e6f9e8;
+
+  --seduc-danger: #e53935;
+  --seduc-danger-dark: #b71c1c;
+  --seduc-danger-light: #fdecea;
+
+  /* Superfícies e Bordas */
+  --seduc-bg-page: #f4f7fb;
+  --seduc-bg-surface: #ffffff;
+  --seduc-bg-muted: #edf1f7;
+  --seduc-border: #d5dce6;
+  --seduc-border-light: #e5eaf2;
+
+  /* Tipografia */
+  --seduc-text-main: #141b2d;
+  --seduc-text-secondary: #4f5665;
+  --seduc-text-muted: #6e7687;
+
+  /* Elevação e Bordas Arredondadas (Estilo Bento Moderno) */
+  --shadow-xs: 0 2px 6px rgba(1, 68, 138, 0.05);
+  --shadow-sm: 0 4px 14px rgba(1, 68, 138, 0.08);
+  --shadow-md: 0 10px 28px rgba(13, 37, 76, 0.12);
+  --shadow-lg: 0 18px 40px rgba(10, 30, 63, 0.18);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body.high-contrast {
+  --seduc-bg-page: #090d16;
+  --seduc-bg-surface: #111827;
+  --seduc-bg-muted: #1f2937;
+  --seduc-border: #374151;
+  --seduc-border-light: #1f2937;
+  --seduc-text-main: #f9fafb;
+  --seduc-text-secondary: #d1d5db;
+  --seduc-text-muted: #9ca3af;
+  --seduc-blue-soft: #172554;
+  --seduc-blue-light: #1e3a8a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--seduc-bg-page);
+  color: var(--seduc-text-main);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.025em;
+}
+
+/* ============================================================================
+ * FAIXA TRICOLOR SERGIPE + BARRA INSTITUCIONAL GOV.SE
+ * ============================================================================ */
+.sergipe-tricolor-strip {
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--seduc-green) 0%,
+    var(--seduc-green) 35%,
+    var(--seduc-gold) 35%,
+    var(--seduc-gold) 70%,
+    var(--seduc-blue-primary) 70%,
+    var(--seduc-blue-primary) 100%
+  );
+}
+
+.gov-topbar {
+  background-color: var(--seduc-blue-darkest);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.76rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gov-topbar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0.4rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.gov-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.gov-sergipe-flag-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.gov-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.gov-dot.green { background-color: var(--seduc-green); }
+.gov-dot.gold { background-color: var(--seduc-gold); }
+.gov-dot.blue { background-color: #38bdf8; }
+
+.gov-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.gov-link-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  padding: 0.22rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.73rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.18s ease;
+}
+
+.gov-link-btn:hover {
+  background: var(--seduc-gold);
+  color: var(--seduc-blue-darkest);
+  border-color: var(--seduc-gold);
+}
+
+/* ============================================================================
+ * HEADER COMMAND-CENTER (SUPERIOR BRANCO/INSTITUCIONAL + DOCK DE PERFIS)
+ * ============================================================================ */
+.seduc-header {
+  background: var(--seduc-bg-surface);
+  border-bottom: 1px solid var(--seduc-border-light);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--shadow-xs);
+}
+
+.seduc-header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0.85rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.seduc-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.seduc-crest {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--seduc-blue-primary) 0%, var(--seduc-blue-gov) 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(22, 65, 148, 0.25);
+  border-bottom: 3px solid var(--seduc-gold);
+  flex-shrink: 0;
+}
+
+.seduc-title-block h1 {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--seduc-blue-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.15;
+}
+
+body.high-contrast .seduc-title-block h1 {
+  color: #ffffff;
+}
+
+.seduc-title-badge {
+  background: linear-gradient(90deg, var(--seduc-green-dark), var(--seduc-green));
+  color: #ffffff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  padding: 0.14rem 0.55rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.seduc-title-block p {
+  font-size: 0.78rem;
+  color: var(--seduc-text-secondary);
+  font-weight: 500;
+  margin-top: 0.1rem;
+}
+
+/* Segmented Dock de Troca de Perfil */
+.role-switcher-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--seduc-bg-muted);
+  padding: 0.32rem;
+  border-radius: 999px;
+  border: 1px solid var(--seduc-border);
+}
+
+.role-switcher-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--seduc-text-secondary);
+  padding: 0 0.6rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.role-tab-btn {
+  border: none;
+  background: transparent;
+  color: var(--seduc-text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.81rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.2s ease;
+}
+
+.role-tab-btn:hover {
+  color: var(--seduc-blue-primary);
+  background: rgba(22, 65, 148, 0.06);
+}
+
+.role-tab-btn.active {
+  background: var(--seduc-blue-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(22, 65, 148, 0.28);
+}
+
+.role-counter-pill {
+  background: var(--seduc-gold);
+  color: #0a1e3f;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+}
+
+/* ============================================================================
+ * BARRA DE NAVEGAÇÃO HORIZONTAL DO MÓDULO (RIBBON NAVIGATION)
+ * ============================================================================ */
+.module-ribbon {
+  background: linear-gradient(90deg, var(--seduc-blue-primary) 0%, var(--seduc-blue-gov) 100%);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.module-ribbon-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0.65rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.module-ribbon-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.ribbon-tab-btn {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 0.52rem 1rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.18s ease;
+}
+
+.ribbon-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.ribbon-tab-btn.active {
+  background: var(--seduc-gold);
+  color: var(--seduc-blue-darkest);
+  border-color: var(--seduc-gold);
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.ribbon-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.08rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+}
+
+.ribbon-tab-btn.active .ribbon-badge {
+  background: var(--seduc-blue-darkest);
+  color: var(--seduc-gold);
+}
+
+.ribbon-context-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(10, 30, 63, 0.38);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.78rem;
+}
+
+/* ============================================================================
+ * WORKSPACE CENTRAL (FULL-WIDTH BENTO CONTAINER)
+ * ============================================================================ */
+.portal-workspace {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.6rem 1.75rem 3rem;
+}
+
+@media (max-width: 768px) {
+  .portal-workspace {
+    padding: 1rem;
+  }
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Hero Banner Imersivo em Gradiente SEDUC-SE */
+.page-hero {
+  background: linear-gradient(125deg, var(--seduc-blue-dark) 0%, var(--seduc-blue-primary) 58%, #0f6848 100%);
+  color: #ffffff;
+  border-radius: var(--radius-xl);
+  padding: 1.65rem 2rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 4px solid var(--seduc-gold);
+}
+
+.page-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(255, 185, 0, 0.2);
+  color: var(--seduc-gold);
+  padding: 0.24rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(255, 185, 0, 0.4);
+}
+
+.page-hero h2 {
+  font-size: 1.5rem;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.page-hero p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.86);
+  margin-top: 0.3rem;
+  max-width: 760px;
+}
+
+/* KPIs Bento Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.15rem;
+}
+
+.stat-card {
+  background: var(--seduc-bg-surface);
+  border: 1px solid var(--seduc-border-light);
+  border-top: 4px solid var(--seduc-blue-primary);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.35rem;
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card.variant-green { border-top-color: var(--seduc-green); }
+.stat-card.variant-gold { border-top-color: var(--seduc-gold); }
+.stat-card.variant-danger { border-top-color: var(--seduc-danger); }
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--seduc-text-secondary);
+}
+
+.stat-card-value {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--seduc-text-main);
+  margin: 0.15rem 0;
+  line-height: 1.15;
+}
+
+.stat-card-sub {
+  font-size: 0.75rem;
+  color: var(--seduc-text-muted);
+}
+
+.stat-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon-box.blue {
+  background: var(--seduc-blue-light);
+  color: var(--seduc-blue-primary);
+}
+
+.stat-icon-box.gold {
+  background: var(--seduc-gold-light);
+  color: var(--seduc-gold-dark);
+}
+
+.stat-icon-box.green {
+  background: var(--seduc-green-light);
+  color: var(--seduc-green-dark);
+}
+
+.stat-icon-box.danger {
+  background: var(--seduc-danger-light);
+  color: var(--seduc-danger);
+}
+
+/* Cards de Seção e Painéis Bento */
+.section-card {
+  background: var(--seduc-bg-surface);
+  border: 1px solid var(--seduc-border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+
+.section-card-header {
+  padding: 1.15rem 1.5rem;
+  border-bottom: 1px solid var(--seduc-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background: var(--seduc-bg-surface);
+}
+
+.section-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--seduc-blue-primary);
+}
+
+body.high-contrast .section-card-title {
+  color: var(--seduc-gold);
+}
+
+.section-card-subtitle {
+  font-size: 0.81rem;
+  color: var(--seduc-text-secondary);
+  margin-top: 0.15rem;
+}
+
+.section-card-body {
+  padding: 1.5rem;
+}
+
+.two-col-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1.35fr;
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.two-col-equal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.35rem;
+  align-items: start;
+}
+
+.cards-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 960px) {
+  .two-col-grid,
+  .two-col-equal {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================================
+ * FORMULÁRIOS E CONTROLES INTERATIVOS
+ * ============================================================================ */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem;
+}
+
+.col-12 { grid-column: span 12; }
+.col-8 { grid-column: span 8; }
+.col-7 { grid-column: span 7; }
+.col-6 { grid-column: span 6; }
+.col-5 { grid-column: span 5; }
+.col-4 { grid-column: span 4; }
+.col-3 { grid-column: span 3; }
+.col-2 { grid-column: span 2; }
+
+@media (max-width: 680px) {
+  .col-8, .col-7, .col-6, .col-5, .col-4, .col-3, .col-2 {
+    grid-column: span 12;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+}
+
+.form-label {
+  font-size: 0.79rem;
+  font-weight: 700;
+  color: var(--seduc-text-main);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-label span.required {
+  color: var(--seduc-danger);
+  margin-left: 2px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid var(--seduc-border);
+  border-radius: var(--radius-sm);
+  background: var(--seduc-bg-surface);
+  color: var(--seduc-text-main);
+  font-family: var(--font-body);
+  font-size: 0.87rem;
+  transition: all 0.15s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--seduc-blue-bright);
+  box-shadow: 0 0 0 3px rgba(38, 103, 255, 0.14);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 84px;
+}
+
+/* ============================================================================
+ * BOTÕES E AÇÕES
+ * ============================================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.48rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--seduc-blue-primary) 0%, var(--seduc-blue-gov) 100%);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--seduc-blue-dark);
+  box-shadow: 0 6px 16px rgba(22, 65, 148, 0.25);
+}
+
+.btn-success {
+  background: var(--seduc-green-dark);
+  color: #ffffff;
+}
+
+.btn-success:hover {
+  background: #0e5e14;
+}
+
+.btn-gold {
+  background: var(--seduc-gold);
+  color: #0a1e3f;
+  font-weight: 800;
+}
+
+.btn-gold:hover {
+  background: #e6a700;
+}
+
+.btn-danger {
+  background: var(--seduc-danger);
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background: var(--seduc-danger-dark);
+}
+
+.btn-outline {
+  background: var(--seduc-bg-surface);
+  border-color: var(--seduc-border);
+  color: var(--seduc-text-main);
+}
+
+.btn-outline:hover {
+  border-color: var(--seduc-blue-primary);
+  color: var(--seduc-blue-primary);
+  background: var(--seduc-blue-soft);
+}
+
+.btn-sm {
+  padding: 0.38rem 0.72rem;
+  font-size: 0.77rem;
+}
+
+/* ============================================================================
+ * TABELAS E BADGES
+ * ============================================================================ */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.seduc-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.85rem;
+}
+
+.seduc-table th {
+  background: var(--seduc-blue-soft);
+  color: var(--seduc-blue-primary);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.71rem;
+  letter-spacing: 0.05em;
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--seduc-border);
+}
+
+body.high-contrast .seduc-table th {
+  color: var(--seduc-gold);
+}
+
+.seduc-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--seduc-border-light);
+  color: var(--seduc-text-main);
+  vertical-align: middle;
+}
+
+.seduc-table tr:hover td {
+  background-color: var(--seduc-blue-soft);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.24rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-blue {
+  background: var(--seduc-blue-light);
+  color: var(--seduc-blue-primary);
+}
+
+.badge-green {
+  background: var(--seduc-green-light);
+  color: var(--seduc-green-dark);
+}
+
+.badge-gold {
+  background: var(--seduc-gold-light);
+  color: var(--seduc-gold-dark);
+}
+
+.badge-danger {
+  background: var(--seduc-danger-light);
+  color: var(--seduc-danger-dark);
+}
+
+.badge-neutral {
+  background: var(--seduc-bg-muted);
+  color: var(--seduc-text-secondary);
+}
+
+/* Medidor de Carga Horária e Vagas */
+.workload-meter {
+  width: 100%;
+  height: 11px;
+  background: var(--seduc-bg-muted);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+
+.workload-meter-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.workload-meter-fill.optimal {
+  background: linear-gradient(90deg, var(--seduc-blue-primary), var(--seduc-green));
+}
+
+.workload-meter-fill.idle {
+  background: linear-gradient(90deg, var(--seduc-gold), #f59e0b);
+}
+
+.workload-meter-fill.overload {
+  background: var(--seduc-danger);
+}
+
+/* Sub-abas em formato Pílula */
+.subtabs-bar {
+  display: inline-flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.14);
+  padding: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.subtab-btn {
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  padding: 0.48rem 0.95rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.16s ease;
+}
+
+.subtab-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.subtab-btn.active {
+  background: var(--seduc-gold);
+  color: #0a1e3f;
+}
+
+/* Botões de Frequência Rápida */
+.attendance-toggle-group {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--seduc-bg-muted);
+  padding: 3px;
+  border-radius: 8px;
+}
+
+.att-btn {
+  border: none;
+  background: transparent;
+  color: var(--seduc-text-secondary);
+  padding: 0.36rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.att-btn.active-P {
+  background: var(--seduc-green-dark);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(19, 122, 27, 0.3);
+}
+
+.att-btn.active-F {
+  background: var(--seduc-danger);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(229, 57, 53, 0.3);
+}
+
+.att-btn.active-FJ {
+  background: var(--seduc-gold);
+  color: #0a1e3f;
+}
+
+.grade-input {
+  width: 72px;
+  padding: 0.45rem 0.5rem;
+  text-align: center;
+  font-weight: 700;
+  border: 1.5px solid var(--seduc-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  background: var(--seduc-bg-surface);
+  color: var(--seduc-text-main);
+}
+
+.grade-input:focus {
+  outline: none;
+  border-color: var(--seduc-blue-bright);
+  box-shadow: 0 0 0 3px rgba(38, 103, 255, 0.15);
+}
+
+/* Rodapé Portal EducaSE */
+.portal-footer {
+  background: var(--seduc-bg-surface);
+  border-top: 1px solid var(--seduc-border-light);
+  padding: 1.1rem 1.75rem;
+  margin-top: auto;
+  font-size: 0.78rem;
+  color: var(--seduc-text-secondary);
+}
+
+.portal-footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Toast Notification */
+.seduc-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--seduc-blue-darkest);
+  color: #ffffff;
+  border-left: 5px solid var(--seduc-green);
+  padding: 0.95rem 1.3rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 100;
+  max-width: 440px;
+  animation: slideInUp 0.25s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
